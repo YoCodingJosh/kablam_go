@@ -12,7 +12,7 @@ import (
 )
 
 type AssetManager struct{
-	Images map[string]*ebiten.Image `json:"images"`
+	Images map[string]*ebiten.Image
 }
 
 func NewAssetManager() *AssetManager {
