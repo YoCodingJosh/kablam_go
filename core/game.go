@@ -7,6 +7,22 @@ import (
 
 type Game struct{
 	currentState State
+	assets *AssetManager
+}
+
+func NewGame() *Game {
+	am := NewAssetManager()
+
+	am.LoadFromJSON("resources/assets.json")
+
+	return &Game{
+		currentState: nil,
+		assets: am,
+	}
+}
+
+func (g *Game) SetState(s State) {
+	g.currentState = s
 }
 
 func (g *Game) Update() error {

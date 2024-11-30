@@ -2,7 +2,10 @@ module codingjosh.com/kablam
 
 go 1.23.3
 
-require github.com/hajimehoshi/ebiten/v2 v2.8.5
+require (
+	github.com/goccy/go-json v0.10.3
+	github.com/hajimehoshi/ebiten/v2 v2.8.5
+)
 
 require (
 	github.com/ebitengine/gomobile v0.0.0-20240911145611-4856209ac325 // indirect
