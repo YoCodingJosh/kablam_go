@@ -1,9 +1,10 @@
 package core
 
 import (
+	"fmt"
 	"io"
-	"log"
 	"os"
+	"sync"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -13,6 +14,9 @@ import (
 
 type AssetManager struct{
 	Images map[string]*ebiten.Image
+	imagesMu sync.Mutex
+
+	// TODO: other asset types
 }
 
 func NewAssetManager() *AssetManager {
@@ -22,36 +26,69 @@ func NewAssetManager() *AssetManager {
 }
 
 func (am *AssetManager) LoadFromJSON(path string) error {
-	// Load up the JSON file
+	// Open the JSON file
 	file, err := os.Open(path)
 	if err != nil {
-			log.Fatalf("Failed to open file: %v", err)
+		return fmt.Errorf("failed to open file %q: %w", path, err)
 	}
 	defer file.Close()
 
-	// Actually read the file
+	// Read the file content
 	fileContent, err := io.ReadAll(file)
 	if err != nil {
-			log.Fatalf("Failed to read file: %v", err)
+		return fmt.Errorf("failed to read file %q: %w", path, err)
 	}
 
-	// Structure to hold the marshalled JSON
-	marshalledJson := struct {
+	// Temporary structure to hold the parsed JSON
+	parsedData := struct {
 		Images map[string]string `json:"images"`
 	}{}
 
-	// Parse the JSON file
-	err = json.Unmarshal(fileContent, &marshalledJson)
+	// Parse the JSON file into the temporary structure
+	err = json.Unmarshal(fileContent, &parsedData)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to unmarshal JSON from file %q: %w", path, err)
 	}
 
-	// TODO: Actually use goroutines to load everything in parallel
+	// Create wait group to wait for all images to load
+	var wg sync.WaitGroup
+	errorCh := make(chan error)
+	done := make(chan struct{})
 
-	// print the images for now
-	for k, v := range marshalledJson.Images {
-		log.Printf("Key: %s, Value: %v", k, v)
-	}
+	// Error handling goroutine
+	go func() {
+    var err error
+    for e := range errorCh { // Reads errors from the channel
+        if err == nil {      // Collect only the first error
+            err = e
+        }
+    }
+    done <- struct{}{} // Signal completion
+	}()
+
+	wg.Add(1) // TODO: Increment for other asset types (ie: sounds, fonts, etc)
+
+	// Image loading goroutine
+	go func() {
+		defer wg.Done()
+
+		// Load the images into the AssetManager
+		// TODO: investigate if we can load images concurrently
+		for key, value := range parsedData.Images {
+			image, err := am.LoadImage(fmt.Sprintf("resources/images/%s", value))
+
+			if err != nil {
+					errorCh <- fmt.Errorf("failed to load image %q: %w", value, err)
+					continue
+			}
+
+			am.imagesMu.Lock()
+
+			am.Images[key] = image
+
+			am.imagesMu.Unlock()
+		}
+	}()
 
 	return nil
 }
@@ -65,8 +102,6 @@ func (am *AssetManager) LoadImage(path string) (*ebiten.Image, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	am.Images[path] = img
 
 	return img, nil
 }

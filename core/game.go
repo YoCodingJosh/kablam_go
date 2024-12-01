@@ -1,13 +1,14 @@
 package core
 
 import (
+	"image/color"
+
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type Game struct{
 	currentState State
-	assets *AssetManager
+	Assets *AssetManager
 }
 
 func NewGame() *Game {
@@ -15,10 +16,14 @@ func NewGame() *Game {
 
 	am.LoadFromJSON("resources/assets.json")
 
-	return &Game{
+	inst := &Game{
 		currentState: nil,
-		assets: am,
+		Assets: am,
 	}
+
+	inst.SetState(NewSplashState(inst))
+
+	return inst
 }
 
 func (g *Game) SetState(s State) {
@@ -26,11 +31,15 @@ func (g *Game) SetState(s State) {
 }
 
 func (g *Game) Update() error {
-	return nil
+	return g.currentState.Update()
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Loading...")
+	// ebitenutil.DebugPrint(screen, "Loading...")
+	screen.Clear()
+	screen.Fill(color.White)
+
+	g.currentState.Draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
