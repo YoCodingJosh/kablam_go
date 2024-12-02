@@ -31,7 +31,16 @@ func (g *Game) SetState(s State) {
 }
 
 func (g *Game) Update() error {
-	return g.currentState.Update()
+	tps := ebiten.ActualTPS()
+	if tps == 0 {
+		tps = ebiten.DefaultTPS // we don't want to divide by zero
+	}
+	deltaTime := 1 / tps
+
+	// log.Printf("TPS: %f", tps)
+	// log.Printf("Delta Time: %f", deltaTime)
+
+	return g.currentState.Update(deltaTime)
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
