@@ -4,14 +4,18 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type SplashState struct{
+type SplashState struct {
 	game *Game
 	timer float64 // how long to show the splash screen
 	show bool // TEMP: until the menu is implemented
 }
 
 func (s *SplashState) Update(deltaTime float64) error {
-	if s.timer >= 1.0 {
+	if !s.show {
+		s.game.SetState(NewMenuState(s.game))
+	}
+
+	if s.timer >= 1.500 {
 		s.show = false
 	} else {
 		s.timer += deltaTime

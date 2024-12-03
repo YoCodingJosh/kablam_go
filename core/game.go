@@ -6,7 +6,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type Game struct{
+type Game struct {
 	currentState State
 	Assets *AssetManager
 }

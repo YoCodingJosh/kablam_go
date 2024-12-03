@@ -12,7 +12,7 @@ import (
 	json "github.com/goccy/go-json"
 )
 
-type AssetManager struct{
+type AssetManager struct {
 	Images map[string]*ebiten.Image
 	imagesMu sync.Mutex
 

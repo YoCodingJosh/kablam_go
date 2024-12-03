@@ -1,6 +1,8 @@
 {
   "images": {
     "hypeworks_logo": "HYPEWORKS.png",
-    "hypeworks_logo_alt": "HYPEWORKS2.png"
+    "hypeworks_logo_alt": "HYPEWORKS2.png",
+    "bomb": "Bomb.png",
+    "wall": "wall128x128.png"
   }
 }
