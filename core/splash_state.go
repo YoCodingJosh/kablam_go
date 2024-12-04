@@ -15,7 +15,7 @@ func (s *SplashState) Update(deltaTime float64) error {
 		s.game.SetState(NewMenuState(s.game))
 	}
 
-	if s.timer >= 1.500 {
+	if s.timer >= SplashScreenDuration {
 		s.show = false
 	} else {
 		s.timer += deltaTime

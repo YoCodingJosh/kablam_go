@@ -4,5 +4,9 @@
     "hypeworks_logo_alt": "HYPEWORKS2.png",
     "bomb": "Bomb.png",
     "wall": "wall128x128.png"
+  },
+  "fonts": {
+    "menu": "NotoSans-Regular.ttf",
+    "default": "DotGothic16-Regular.ttf"
   }
 }

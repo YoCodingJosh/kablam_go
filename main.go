@@ -12,7 +12,7 @@ func main() {
 
 	game := core.NewGame()
 
-	ebiten.SetWindowSize(1280, 960) // 2x of 640x480
+	ebiten.SetWindowSize(core.ScreenWidth, core.ScreenHeight)
 
 	ebiten.SetWindowTitle("Kablam!")
 

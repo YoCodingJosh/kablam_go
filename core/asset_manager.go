@@ -1,6 +1,7 @@
 package core
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -8,6 +9,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 
 	json "github.com/goccy/go-json"
 )
@@ -16,12 +18,15 @@ type AssetManager struct {
 	Images map[string]*ebiten.Image
 	imagesMu sync.Mutex
 
+	Fonts map[string]*text.GoTextFaceSource
+	fontsMu sync.Mutex
 	// TODO: other asset types
 }
 
 func NewAssetManager() *AssetManager {
 	return &AssetManager{
 		Images: make(map[string]*ebiten.Image),
+		Fonts: make(map[string]*text.GoTextFaceSource),
 	}
 }
 
@@ -42,6 +47,7 @@ func (am *AssetManager) LoadFromJSON(path string) error {
 	// Temporary structure to hold the parsed JSON
 	parsedData := struct {
 		Images map[string]string `json:"images"`
+		Fonts map[string]string `json:"fonts"`
 	}{}
 
 	// Parse the JSON file into the temporary structure
@@ -66,7 +72,7 @@ func (am *AssetManager) LoadFromJSON(path string) error {
     done <- struct{}{} // Signal completion
 	}()
 
-	wg.Add(1) // TODO: Increment for other asset types (ie: sounds, fonts, etc)
+	wg.Add(2) // TODO: Increment for other asset types (ie: sounds, fonts, etc)
 
 	// Image loading goroutine
 	go func() {
@@ -78,8 +84,8 @@ func (am *AssetManager) LoadFromJSON(path string) error {
 			image, err := am.LoadImage(fmt.Sprintf("resources/images/%s", value))
 
 			if err != nil {
-					errorCh <- fmt.Errorf("failed to load image %q: %w", value, err)
-					continue
+				errorCh <- fmt.Errorf("failed to load image %q: %w", value, err)
+				continue
 			}
 
 			am.imagesMu.Lock()
@@ -87,6 +93,27 @@ func (am *AssetManager) LoadFromJSON(path string) error {
 			am.Images[key] = image
 
 			am.imagesMu.Unlock()
+		}
+	}()
+
+	// Font loading goroutine
+	go func() {
+		defer wg.Done()
+
+		// Load the fonts into the AssetManager
+		for key, value := range parsedData.Fonts {
+			font, err := am.LoadFont(fmt.Sprintf("resources/fonts/%s", value))
+
+			if err != nil {
+				errorCh <- fmt.Errorf("failed to load font %q: %w", value, err)
+				continue
+			}
+
+			am.fontsMu.Lock()
+
+			am.Fonts[key] = font
+
+			am.fontsMu.Unlock()
 		}
 	}()
 
@@ -104,4 +131,30 @@ func (am *AssetManager) LoadImage(path string) (*ebiten.Image, error) {
 	}
 
 	return img, nil
+}
+
+func (am *AssetManager) LoadFont(path string) (*text.GoTextFaceSource, error) {
+	if font, ok := am.Fonts[path]; ok {
+		return font, nil
+	}
+
+	// Open the file for reading
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	// Read the file content
+	fileBytes, err := io.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+
+	font, err := text.NewGoTextFaceSource(bytes.NewReader(fileBytes))
+	if err != nil {
+		return nil, err
+	}
+
+	return font, nil
 }
