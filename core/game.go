@@ -8,6 +8,7 @@ import (
 
 type Game struct {
 	currentState State
+	timeAccumulator float64
 	Assets *AssetManager
 }
 
@@ -18,6 +19,7 @@ func NewGame() *Game {
 
 	inst := &Game{
 		currentState: nil,
+		timeAccumulator: 0.0,
 		Assets: am,
 	}
 
@@ -30,12 +32,19 @@ func (g *Game) SetState(s State) {
 	g.currentState = s
 }
 
+func (g *Game) CurrentState() State {
+	return g.currentState
+}
+
 func (g *Game) Update() error {
-	tps := ebiten.ActualTPS()
-	if tps == 0 {
-		tps = ebiten.DefaultTPS // we don't want to divide by zero
-	}
-	deltaTime := 1 / tps
+	// tps := ebiten.ActualTPS()
+	// if tps == 0 {
+		// tps = ebiten.DefaultTPS // we don't want to divide by zero
+	// }
+	// deltaTime := 1.0 / tps
+
+	// TODO: temp fix lmao
+	deltaTime := 0.0166666667
 
 	// log.Printf("TPS: %f", tps)
 	// log.Printf("Delta Time: %f", deltaTime)
@@ -44,7 +53,6 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	// ebitenutil.DebugPrint(screen, "Loading...")
 	screen.Clear()
 	screen.Fill(color.White)
 

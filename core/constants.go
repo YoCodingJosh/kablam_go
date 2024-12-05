@@ -1,5 +1,10 @@
 package core
 
+import (
+	"fmt"
+	"time"
+)
+
 // just a bunch of constants to make my life easier
 
 const (
@@ -23,4 +28,13 @@ const (
 
 	// The duration of the menu prompt blink
 	MenuPromptBlinkDuration = 0.66667
+
+	// Kablam!
+	GameTitle = "Kablam!"
+)
+
+// too bad Go doesn't have constexpr like C++
+var (
+	// Copyright text
+	GameCopyright = fmt.Sprintf("Copyright %c %d Josh Kennedy", 169, time.Now().Year())
 )

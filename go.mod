@@ -1,6 +1,6 @@
 module codingjosh.com/kablam
 
-go 1.23.3
+go 1.23.4
 
 require (
 	github.com/goccy/go-json v0.10.3

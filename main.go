@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"codingjosh.com/kablam/core"
@@ -8,13 +9,13 @@ import (
 )
 
 func main() {
-	println("Kablam!\nCopyright (C) 2024 Josh Kennedy.")
+	println(fmt.Sprintf("%s\n%s", core.GameTitle, core.GameCopyright))
 
 	game := core.NewGame()
 
 	ebiten.SetWindowSize(core.ScreenWidth, core.ScreenHeight)
 
-	ebiten.SetWindowTitle("Kablam!")
+	ebiten.SetWindowTitle(core.GameTitle)
 
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
