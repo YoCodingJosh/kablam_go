@@ -31,6 +31,12 @@ const (
 
 	// Kablam!
 	GameTitle = "Kablam!"
+
+	BombSpriteWidth  = 64
+	BombSpriteHeight = 64
+	BombAnimationFrameCount = 4
+	BombAnimationFrameDuration = 0.3
+	BombVelocity = 64.0
 )
 
 // too bad Go doesn't have constexpr like C++
