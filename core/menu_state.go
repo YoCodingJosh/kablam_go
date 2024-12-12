@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
@@ -19,6 +20,10 @@ func (s *MenuState) Update(deltaTime float64) error {
 	if s.promptBlinkTimer >= MenuPromptBlinkDuration {
 		s.promptBlinkTimer = 0.0
 		s.promptVisible = !s.promptVisible
+	}
+
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || inpututil.IsKeyJustPressed(ebiten.KeyEnter) || inpututil.IsTouchJustReleased(0) {
+		s.game.SetState(NewGameplayState(s.game))
 	}
 
 	return nil
