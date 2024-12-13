@@ -8,9 +8,12 @@ import (
 
 type GameplayState struct {
 	game *Game
+	badGuy *BadGuy
 }
 
 func (s *GameplayState) Update(deltaTime float64) error {
+	s.badGuy.Update(deltaTime)
+
 	return nil
 }
 
@@ -29,7 +32,7 @@ func (s *GameplayState) Draw(screen *ebiten.Image) {
 		}
 	}
 
-	// TODO: draw score, player, bombs, etc.
+	s.badGuy.Draw(screen)
 }
 
 func (s *GameplayState) Name() string {
@@ -37,7 +40,14 @@ func (s *GameplayState) Name() string {
 }
 
 func NewGameplayState(g *Game) *GameplayState {
+	badGuy := NewBadGuy(1, func (x, y float64) {
+		println("Bomb drop at", x, y)
+	})
+
+	// TODO: call badGuy.Stop to stop the bad guy's goroutines
+
 	return &GameplayState{
 		game: g,
+		badGuy: badGuy,
 	}
 }

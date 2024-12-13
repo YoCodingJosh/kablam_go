@@ -37,10 +37,25 @@ const (
 	BombAnimationFrameCount = 4
 	BombAnimationFrameDuration = 0.3
 	BombVelocity = 64.0
+
+	BadGuySpriteWidth  = 100
+	BadGuySpriteHeight = 100
+
+	BadGuySpeed = 3
+	BadGuyYPos = 60
+
+	// The rightmost possible position for the bad guy
+	MaxBadGuyXPos = ScreenWidth - BadGuySpriteWidth
+
+	// The leftmost possible position for the bad guy
+	MinBadGuyXPos = BadGuySpriteWidth
+
+	BadGuyMoveInterval = 1500 // milliseconds, this is arbitrary for now (might be dynamic later)
+	BadGuyBombInterval = 1000 // milliseconds, this is arbitrary for now (might be dynamic later)
 )
 
 // too bad Go doesn't have constexpr like C++
 var (
 	// Copyright text
-	GameCopyright = fmt.Sprintf("Copyright %c %d Josh Kennedy", 169, time.Now().Year())
+	GameCopyright = fmt.Sprintf("Copyright %c %d Josh Kennedy", 169, time.Now().Year()) // 169 is the copyright symbol
 )
