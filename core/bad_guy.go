@@ -61,6 +61,8 @@ func NewBadGuy(level int, bombDropCallback func(x, y float64)) *BadGuy {
 		bombDropTicker:     *bombTicker,
 	}
 
+	// TODO: How to handle game pausing?
+
 	go func() {
 		for range moveTicker.C {
 			badGuy.shouldMoveCallback()

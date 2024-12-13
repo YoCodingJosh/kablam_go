@@ -52,6 +52,9 @@ const (
 
 	BadGuyMoveInterval = 1500 // milliseconds, this is arbitrary for now (might be dynamic later)
 	BadGuyBombInterval = 1000 // milliseconds, this is arbitrary for now (might be dynamic later)
+
+	ScoreTextSize = 24
+	ScoreText = "Score: %d"
 )
 
 // too bad Go doesn't have constexpr like C++
