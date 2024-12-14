@@ -12,14 +12,19 @@ type Bomb struct {
 	velocity     float64
 	active       bool
 	currentFrame int
+	currentFrameTime float64
 	spriteSheet  *ebiten.Image
 }
 
 func (b *Bomb) Update(deltaTime float64) {
-	// TODO: actually utilize the frame time for the animation
-	b.currentFrame++
-	if b.currentFrame >= BombAnimationFrameCount {
-		b.currentFrame = 0
+	b.currentFrameTime += deltaTime
+
+	if b.currentFrameTime >= BombAnimationFrameDuration {
+		b.currentFrame++
+		b.currentFrameTime = 0
+		if b.currentFrame >= BombAnimationFrameCount {
+			b.currentFrame = 0
+		}
 	}
 
 	b.y += b.velocity * deltaTime
@@ -34,13 +39,9 @@ func (b *Bomb) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(b.x, b.y)
 
-	frameWidth := BombSpriteWidth
-	frameHeight := BombSpriteHeight
+	sx := b.currentFrame * BombSpriteWidth
 
-	sx := b.currentFrame * frameWidth
-	sy := 0
-
-	screen.DrawImage(b.spriteSheet.SubImage(image.Rect(sx, sy, sx+frameWidth, sy+frameHeight)).(*ebiten.Image), op)
+	screen.DrawImage(b.spriteSheet.SubImage(image.Rect(sx, 0, sx+BombSpriteWidth, BombSpriteHeight)).(*ebiten.Image), op)
 }
 
 func NewBomb(x, y, velocity float64, spriteSheet *ebiten.Image) *Bomb {

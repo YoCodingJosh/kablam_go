@@ -35,7 +35,8 @@ const (
 	BombSpriteWidth  = 64
 	BombSpriteHeight = 64
 	BombAnimationFrameCount = 4
-	BombAnimationFrameDuration = 0.3
+	BombAnimationFPS = 15
+	BombAnimationFrameDuration = 1.0 / BombAnimationFPS
 	BombVelocity = 64.0
 
 	BadGuySpriteWidth  = 100
