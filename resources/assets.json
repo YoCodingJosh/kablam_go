@@ -8,5 +8,8 @@
   "fonts": {
     "menu": "NotoSans-Regular.ttf",
     "default": "DotGothic16-Regular.ttf"
+  },
+  "sounds": {
+    "cash": "cash.wav"
   }
 }

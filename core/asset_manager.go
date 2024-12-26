@@ -117,6 +117,8 @@ func (am *AssetManager) LoadFromJSON(path string) error {
 		}
 	}()
 
+	wg.Wait() // Wait for all assets to load
+
 	return nil
 }
 
@@ -157,4 +159,9 @@ func (am *AssetManager) LoadFont(path string) (*text.GoTextFaceSource, error) {
 	}
 
 	return font, nil
+}
+
+func (am* AssetManager) LoadSound(path string) error {
+	// TODO:
+	return nil
 }
