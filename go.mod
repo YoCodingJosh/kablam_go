@@ -3,8 +3,8 @@ module codingjosh.com/kablam
 go 1.23.4
 
 require (
-	github.com/goccy/go-json v0.10.3
-	github.com/hajimehoshi/ebiten/v2 v2.8.5
+	github.com/goccy/go-json v0.10.4
+	github.com/hajimehoshi/ebiten/v2 v2.8.6
 )
 
 require (
