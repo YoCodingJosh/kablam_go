@@ -9,10 +9,10 @@ import (
 )
 
 type GameplayState struct {
-	game *Game
+	game   *Game
 	badGuy *BadGuy
-	bombs []*Bomb
-	score uint64
+	bombs  []*Bomb
+	score  uint64
 }
 
 func (s *GameplayState) Update(deltaTime float64) error {
@@ -28,7 +28,7 @@ func (s *GameplayState) Update(deltaTime float64) error {
 func (s *GameplayState) Draw(screen *ebiten.Image) {
 	scoreFont := &text.GoTextFace{
 		Source: s.game.Assets.Fonts["default"],
-		Size: 24,
+		Size:   24,
 	}
 
 	scoreDrawOptions := &text.DrawOptions{}
@@ -58,7 +58,7 @@ func (s *GameplayState) Draw(screen *ebiten.Image) {
 	}
 }
 
-func (s* GameplayState) handleBombDrop(x, y float64) {
+func (s *GameplayState) handleBombDrop(x, y float64) {
 	bomb := NewBomb(x, y, BombVelocity, s.game.Assets.Images["bomb"])
 	s.bombs = append(s.bombs, bomb)
 }
@@ -67,10 +67,9 @@ func (s *GameplayState) Name() string {
 	return "Gameplay"
 }
 
-
 func NewGameplayState(g *Game) *GameplayState {
 	state := &GameplayState{
-		game: g,
+		game:  g,
 		bombs: make([]*Bomb, 0),
 		score: 0,
 	}

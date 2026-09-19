@@ -32,18 +32,18 @@ const (
 	// Kablam!
 	GameTitle = "Kablam!"
 
-	BombSpriteWidth  = 64
-	BombSpriteHeight = 64
-	BombAnimationFrameCount = 4
-	BombAnimationFPS = 15
+	BombSpriteWidth            = 64
+	BombSpriteHeight           = 64
+	BombAnimationFrameCount    = 4
+	BombAnimationFPS           = 15
 	BombAnimationFrameDuration = 1.0 / BombAnimationFPS
-	BombVelocity = 64.0
+	BombVelocity               = 64.0
 
 	BadGuySpriteWidth  = 100
 	BadGuySpriteHeight = 100
 
 	BadGuySpeed = 3
-	BadGuyYPos = 60
+	BadGuyYPos  = 60
 
 	// The rightmost possible position for the bad guy
 	MaxBadGuyXPos = ScreenWidth - BadGuySpriteWidth
@@ -55,7 +55,7 @@ const (
 	BadGuyBombInterval = 1000 // milliseconds, this is arbitrary for now (might be dynamic later)
 
 	ScoreTextSize = 24
-	ScoreText = "Score: %d"
+	ScoreText     = "Score: %d"
 )
 
 // too bad Go doesn't have constexpr like C++

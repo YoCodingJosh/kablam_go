@@ -7,13 +7,13 @@ import (
 )
 
 type Bomb struct {
-	x            float64
-	y            float64
-	velocity     float64
-	active       bool
-	currentFrame int
+	x                float64
+	y                float64
+	velocity         float64
+	active           bool
+	currentFrame     int
 	currentFrameTime float64
-	spriteSheet  *ebiten.Image
+	spriteSheet      *ebiten.Image
 }
 
 func (b *Bomb) Update(deltaTime float64) {

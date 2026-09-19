@@ -13,7 +13,7 @@ type BadGuy struct {
 	currentLevel       int     // Current level of the game -- determines difficulty
 	currentPosition    float64 // Current position of the bad guy
 	nextPosition       float64 // Next position of the bad guy, will be lerped to
-	shouldMoveTicker 	 time.Ticker
+	shouldMoveTicker   time.Ticker
 	velocity           float64 // Speed of the bad guy
 	velocityMultiplier float64 // Multiplier for the velocity -- will be calculated by the game somehow TBD lol
 	shouldDropBomb     bool    // Should the bad guy drop a bomb? Will be determined by a timer
@@ -21,15 +21,15 @@ type BadGuy struct {
 }
 
 func (b *BadGuy) shouldMoveCallback() {
-	b.nextPosition = rand.Float64() * (MaxBadGuyXPos - MinBadGuyXPos) + MinBadGuyXPos
+	b.nextPosition = rand.Float64()*(MaxBadGuyXPos-MinBadGuyXPos) + MinBadGuyXPos
 }
 
 func (b *BadGuy) Update(deltaTime float64) {
 	// Update the position of the bad guy
-	b.currentPosition = Lerp(b.currentPosition, b.nextPosition, b.velocity * deltaTime)
+	b.currentPosition = Lerp(b.currentPosition, b.nextPosition, b.velocity*deltaTime)
 
 	// If the bad guy is close to the next position, set the next position to a new random position
-	if math.Abs(b.currentPosition - b.nextPosition) < 1 {
+	if math.Abs(b.currentPosition-b.nextPosition) < 1 {
 		b.currentPosition = b.nextPosition
 	}
 }

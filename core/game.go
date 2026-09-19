@@ -7,9 +7,9 @@ import (
 )
 
 type Game struct {
-	currentState State
+	currentState    State
 	timeAccumulator float64
-	Assets *AssetManager
+	Assets          *AssetManager
 }
 
 func NewGame() *Game {
@@ -18,9 +18,9 @@ func NewGame() *Game {
 	am.LoadFromJSON("resources/assets.json")
 
 	inst := &Game{
-		currentState: nil,
+		currentState:    nil,
 		timeAccumulator: 0.0,
-		Assets: am,
+		Assets:          am,
 	}
 
 	inst.SetState(NewSplashState(inst))
@@ -39,7 +39,7 @@ func (g *Game) CurrentState() State {
 func (g *Game) Update() error {
 	// tps := ebiten.ActualTPS()
 	// if tps == 0 {
-		// tps = ebiten.DefaultTPS // we don't want to divide by zero
+	// tps = ebiten.DefaultTPS // we don't want to divide by zero
 	// }
 	// deltaTime := 1.0 / tps
 

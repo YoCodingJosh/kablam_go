@@ -5,9 +5,9 @@ import (
 )
 
 type SplashState struct {
-	game *Game
+	game  *Game
 	timer float64 // how long to show the splash screen
-	show bool // TEMP: until the menu is implemented
+	show  bool    // TEMP: until the menu is implemented
 }
 
 func (s *SplashState) Update(deltaTime float64) error {
@@ -30,7 +30,7 @@ func (s *SplashState) Draw(screen *ebiten.Image) {
 
 		// Center the logo on the screen
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Translate(640 - float64(logoImage.Bounds().Dx())/2, 480 - float64(logoImage.Bounds().Dy())/2)
+		op.GeoM.Translate(640-float64(logoImage.Bounds().Dx())/2, 480-float64(logoImage.Bounds().Dy())/2)
 
 		screen.DrawImage(s.game.Assets.Images["hypeworks_logo"], op)
 	}
@@ -42,8 +42,8 @@ func (s *SplashState) Name() string {
 
 func NewSplashState(g *Game) *SplashState {
 	return &SplashState{
-		game: g,
+		game:  g,
 		timer: 0.0,
-		show: true,
+		show:  true,
 	}
 }

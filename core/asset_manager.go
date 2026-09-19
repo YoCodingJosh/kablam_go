@@ -15,10 +15,10 @@ import (
 )
 
 type AssetManager struct {
-	Images map[string]*ebiten.Image
+	Images   map[string]*ebiten.Image
 	imagesMu sync.Mutex
 
-	Fonts map[string]*text.GoTextFaceSource
+	Fonts   map[string]*text.GoTextFaceSource
 	fontsMu sync.Mutex
 	// TODO: other asset types
 }
@@ -26,7 +26,7 @@ type AssetManager struct {
 func NewAssetManager() *AssetManager {
 	return &AssetManager{
 		Images: make(map[string]*ebiten.Image),
-		Fonts: make(map[string]*text.GoTextFaceSource),
+		Fonts:  make(map[string]*text.GoTextFaceSource),
 	}
 }
 
@@ -47,7 +47,7 @@ func (am *AssetManager) LoadFromJSON(path string) error {
 	// Temporary structure to hold the parsed JSON
 	parsedData := struct {
 		Images map[string]string `json:"images"`
-		Fonts map[string]string `json:"fonts"`
+		Fonts  map[string]string `json:"fonts"`
 	}{}
 
 	// Parse the JSON file into the temporary structure
@@ -63,13 +63,13 @@ func (am *AssetManager) LoadFromJSON(path string) error {
 
 	// Error handling goroutine
 	go func() {
-    var err error
-    for e := range errorCh { // Reads errors from the channel
-        if err == nil {      // Collect only the first error
-            err = e
-        }
-    }
-    done <- struct{}{} // Signal completion
+		var err error
+		for e := range errorCh { // Reads errors from the channel
+			if err == nil { // Collect only the first error
+				err = e
+			}
+		}
+		done <- struct{}{} // Signal completion
 	}()
 
 	wg.Add(2) // TODO: Increment for other asset types (ie: sounds, fonts, etc)
@@ -161,7 +161,7 @@ func (am *AssetManager) LoadFont(path string) (*text.GoTextFaceSource, error) {
 	return font, nil
 }
 
-func (am* AssetManager) LoadSound(path string) error {
+func (am *AssetManager) LoadSound(path string) error {
 	// TODO:
 	return nil
 }

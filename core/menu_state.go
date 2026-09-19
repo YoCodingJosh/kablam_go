@@ -9,9 +9,9 @@ import (
 )
 
 type MenuState struct {
-	game *Game
+	game             *Game
 	promptBlinkTimer float64
-	promptVisible bool
+	promptVisible    bool
 }
 
 func (s *MenuState) Update(deltaTime float64) error {
@@ -47,7 +47,7 @@ func (s *MenuState) Draw(screen *ebiten.Image) {
 	// Draw title and copyright text
 	titleFont := &text.GoTextFace{
 		Source: s.game.Assets.Fonts["default"],
-		Size: 24,
+		Size:   24,
 	}
 
 	copyrightWidth, _ := text.Measure(GameCopyright, titleFont, titleFont.Size)
@@ -70,17 +70,17 @@ func (s *MenuState) Draw(screen *ebiten.Image) {
 	if s.promptVisible {
 		promptFont := &text.GoTextFace{
 			Source: s.game.Assets.Fonts["menu"],
-			Size: 24,
+			Size:   24,
 		}
 
 		promptWidth, promptHeight := text.Measure(MenuPrompt, promptFont, promptFont.Size)
 
 		promptDrawOptions := &text.DrawOptions{}
-		promptDrawOptions.GeoM.Translate((ScreenWidth / 2) - (promptWidth / 2), ScreenHeight - promptHeight - 10)
+		promptDrawOptions.GeoM.Translate((ScreenWidth/2)-(promptWidth/2), ScreenHeight-promptHeight-10)
 		promptDrawOptions.ColorScale.ScaleWithColor(color.White)
 
 		// TODO: Use an outline instead of a shadow like the old version
-		DrawTextWithShadow(screen, MenuPrompt, s.game.Assets.Fonts["menu"], 24, int(ScreenWidth / 2) - int(promptWidth / 2), int(ScreenHeight - promptHeight - 10), 1, color.White, color.Black)
+		DrawTextWithShadow(screen, MenuPrompt, s.game.Assets.Fonts["menu"], 24, int(ScreenWidth/2)-int(promptWidth/2), int(ScreenHeight-promptHeight-10), 1, color.White, color.Black)
 	}
 }
 
@@ -90,8 +90,8 @@ func (s *MenuState) Name() string {
 
 func NewMenuState(g *Game) *MenuState {
 	return &MenuState{
-		game: g,
+		game:             g,
 		promptBlinkTimer: 0.0,
-		promptVisible: true,
+		promptVisible:    true,
 	}
 }
