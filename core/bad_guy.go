@@ -34,13 +34,13 @@ func (b *BadGuy) Update(deltaTime float64) {
 	// If the elapsed time is greater than the interval, update the position
 	if b.moveElapsed >= moveInterval {
 		b.assignNextPosition()
-		b.moveElapsed = 0
+		b.moveElapsed -= moveInterval
 	}
 
 	if b.bombDropElapsed >= bombDropInterval {
 		b.shouldDropBomb = true
 		b.bombDropCallback(b.currentPosition, BadGuyYPos)
-		b.bombDropElapsed = 0
+		b.bombDropElapsed -= bombDropInterval
 	}
 
 	// Update the position of the bad guy
