@@ -5,6 +5,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
@@ -13,9 +14,18 @@ type GameplayState struct {
 	badGuy *BadGuy
 	bombs  []*Bomb
 	score  uint64
+	paused bool
 }
 
 func (s *GameplayState) Update(deltaTime float64) error {
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		s.paused = !s.paused
+	}
+
+	if s.paused {
+		return nil
+	}
+
 	s.badGuy.Update(deltaTime)
 
 	for _, bomb := range s.bombs {
@@ -74,7 +84,6 @@ func NewGameplayState(g *Game) *GameplayState {
 		score: 0,
 	}
 
-	// TODO: Call badGuy.Stop() to stop the bad guy's tickers
 	badGuy := NewBadGuy(1, state.handleBombDrop)
 
 	state.badGuy = badGuy
